@@ -2357,10 +2357,6 @@ def set_theme(root, manager, name):
         style.configure("TScrollbar", foreground="white", troughcolor=bg_grey, bordercolor=bg_grey,  arrowcolor="white")
         style.map("TScrollbar",
                   background=[("active", bg_grey), ("!active", bg_grey)])
-        # Language selection box _select_menu
-        manager.settings._select_menu.configure(bg=bg_grey, fg="white", activebackground=active_grey, activeforeground="white") # Couldn't figure out how to change the border, so it stays black
-        for index in range(manager.settings._select_menu.menu.index("end")+1):
-             manager.settings._select_menu.menu.entryconfig(index, background=bg_grey, activebackground=active_grey, foreground="white")
         # Proxy field
         style.configure("TEntry", foreground="white", selectbackground=active_grey, fieldbackground=bg_grey)
         # Include/Exclude box
@@ -2396,10 +2392,6 @@ def set_theme(root, manager, name):
         # Inventory
         manager.inv._canvas.configure(bg="#f0f0f0")
         # Scroll bars don't need to be reverted
-        # Language selection box _select_menu
-        manager.settings._select_menu.configure(bg="#ffffff", fg="black", activebackground="#f0f0f0", activeforeground="black") # Couldn't figure out how to change the border, so it stays black
-        for index in range(manager.settings._select_menu.menu.index("end")+1):
-             manager.settings._select_menu.menu.entryconfig(index, background="#f0f0f0", activebackground="#0078d7", foreground="black")
         # Proxy field doesn't need to be reverted
         # Include/Exclude dropdown - Only the lists have to be reverted
         # Include list
