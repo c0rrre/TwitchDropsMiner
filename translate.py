@@ -175,6 +175,12 @@ class GUIPriorityModes(TypedDict):
     low_availability: str
 
 
+class GUIPriorityModes(TypedDict):
+    priority_only: str
+    ending_soonest: str
+    low_availability: str
+
+
 class GUISettings(TypedDict):
     general: GUISettingsGeneral
     priority_modes: GUIPriorityModes
