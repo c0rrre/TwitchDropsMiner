@@ -431,7 +431,7 @@ class Twitch:
         self._mnt_triggers: deque[datetime] = deque()
         # NOTE: GQL is pretty volatile and breaks everything if one runs into their rate limit.
         # Do not modify the default, safe values.
-        self._qgl_limiter = RateLimiter(capacity=10, window=1)
+        self._qgl_limiter = RateLimiter(capacity=5, window=1)
         # Client type, session and auth
         self._client_type: ClientInfo = ClientType.ANDROID_APP
         self._session: aiohttp.ClientSession | None = None
@@ -1179,7 +1179,7 @@ class Twitch:
                 self.print(_("status", "claimed_drop").format(drop=claim_text.replace('\n', ' ')))
                 self.gui.tray.notify(claim_text, _("gui", "tray", "notification_title"))
             else:
-                logger.error(f"Drop claim failed! Drop ID: {drop_id}")
+                logger.error(f"Drop claim has potentially failed! Drop ID: {drop_id}")
             # About 4-20s after claiming the drop, next drop can be started
             # by re-sending the watch payload. We can test for it by fetching the current drop
             # via GQL, and then comparing drop IDs.
@@ -1353,6 +1353,8 @@ class Twitch:
     ) -> JsonType | list[JsonType]:
         gql_logger.debug(f"GQL Request: {ops}")
         backoff = ExponentialBackoff(maximum=60)
+        # Use a flag to retry the request a single time, if a "service error" is encountered
+        service_error_retry: bool = True
         for delay in backoff:
             async with self._qgl_limiter:
                 auth_state = await self.get_auth()
@@ -1371,21 +1373,29 @@ class Twitch:
                 response_list = [response_json]
             force_retry: bool = False
             for response_json in response_list:
-                # GQL errors handling
+                # GQL error handling
                 if "errors" in response_json:
                     for error_dict in response_json["errors"]:
-                        if (
-                            "message" in error_dict
-                            and error_dict["message"] in (
-                                # "server error",
-                                # "service error",
-                                "service unavailable",
-                                "service timeout",
-                                "context deadline exceeded",
-                            )
-                        ):
-                            force_retry = True
-                            break
+                        if "message" in error_dict:
+                            if error_dict["message"] == "service error" and service_error_retry:
+                                logger.error(
+                                    "Retrying a \"service error\" for "
+                                    f"{response_json['extensions']['operationName']}"
+                                )
+                                service_error_retry = False
+                                delay = 5  # overwrite delay
+                                force_retry = True
+                                break
+                            elif (
+                                error_dict["message"] in (
+                                    # "server error",
+                                    "service unavailable",
+                                    "service timeout",
+                                    "context deadline exceeded",
+                                )
+                            ):
+                                force_retry = True
+                                break
                     else:
                         raise GQLException(response_json['errors'])
                 # Other error handling
