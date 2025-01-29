@@ -2553,6 +2553,7 @@ if __name__ == "__main__":
                 tray=False,
                 priority=[],
                 proxy=URL(),
+                apprise_url=URL(),
                 alter=lambda: None,
                 dark_theme=True,
                 autostart=False,
