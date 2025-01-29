@@ -1537,6 +1537,9 @@ def proxy_validate(entry: PlaceholderEntry, settings: Settings) -> bool:
     settings.proxy = url
     return valid
 
+def apprise_validate(entry: PlaceholderEntry, settings: Settings) -> bool:
+    return True
+
 
 class _SettingsVars(TypedDict):
     tray: IntVar
@@ -1546,6 +1549,7 @@ class _SettingsVars(TypedDict):
     language: StringVar
     priority_mode: StringVar
     tray_notifications: IntVar
+    apprise_url: StringVar
 
 
 class SettingsPanel:
@@ -1575,6 +1579,7 @@ class SettingsPanel:
             "dark_theme": IntVar(master, self._settings.dark_theme),
             "autostart": IntVar(master, self._settings.autostart),
             "tray_notifications": IntVar(master, self._settings.tray_notifications),
+            "apprise_url": StringVar(master, self._settings.apprise_url),
         }
         self._game_names: set[str] = set()
         master.rowconfigure(0, weight=1)
@@ -1657,6 +1662,22 @@ class SettingsPanel:
         )
         self._proxy.config(validatecommand=partial(proxy_validate, self._proxy, self._settings))
         self._proxy.grid(column=0, row=1)
+
+        # apprise frame
+        apprise_frame = ttk.Frame(center_frame2)
+        apprise_frame.grid(column=0, row=2)
+        ttk.Label(proxy_frame, text=_("gui", "settings", "general", "apprise_url")).grid(column=0, row=0)
+        self._apprise = PlaceholderEntry(
+            apprise_frame,
+            width=37,
+            validate="focusout",
+            prefill="apprise://",
+            textvariable=self._vars["apprise_url"],
+            placeholder="apprise://test/test",
+        )
+        self._apprise.config(validatecommand=partial(apprise_validate, self._apprise, self._settings))
+        self._apprise.grid(column=0, row=1)
+
         # Priority section
         priority_frame = ttk.LabelFrame(
             center_frame, padding=(4, 0, 4, 4), text=_("gui", "settings", "priority")

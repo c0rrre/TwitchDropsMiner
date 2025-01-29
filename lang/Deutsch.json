@@ -138,7 +138,8 @@
                 "autostart": "Autostart: ",
                 "tray": "Autostart ins System Tray: ",
                 "priority_only": "Nur Priorität: ",
-                "proxy": "Proxy (Erfordert Neustart):"
+                "proxy": "Proxy (Erfordert Neustart):",
+                "apprise_url": "Apprise URL:"
             },
             "game_name": "Spiel",
             "priority": "Priorität",

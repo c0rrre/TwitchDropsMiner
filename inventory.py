@@ -196,9 +196,9 @@ class BaseDrop:
 
 class TimedDrop(BaseDrop):
     def __init__(
-        self, campaign: DropsCampaign, data: JsonType, claimed_benefits: dict[str, datetime]
+        self, campaign: DropsCampaign, data: JsonType, claimed_benefits: dict[str, datetime], settings: Settings
     ):
-        super().__init__(campaign, data, claimed_benefits)
+        super().__init__(campaign, data, claimed_benefits, settings)
         self._manager: GUIManager = self._twitch.gui
         self._gui_inv: InventoryOverview = self._manager.inv
         self.current_minutes: int = "self" in data and data["self"]["currentMinutesWatched"] or 0
@@ -321,7 +321,7 @@ class DropsCampaign:
             if allowed["channels"] and allowed.get("isEnabled", True) else []
         )
         self.timed_drops: dict[str, TimedDrop] = {
-            drop_data["id"]: TimedDrop(self, drop_data, claimed_benefits)
+            drop_data["id"]: TimedDrop(self, drop_data, claimed_benefits, setttings)
             for drop_data in data["timeBasedDrops"]
         }
 
