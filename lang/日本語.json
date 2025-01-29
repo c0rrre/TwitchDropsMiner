@@ -139,7 +139,8 @@
         "tray": "トレイに自動起動：",
         "tray_notifications": "トレイ通知：",
         "priority_only": "優先のみ：",
-        "proxy": "プロキシ（再起動が必要）："
+        "proxy": "プロキシ（再起動が必要）：",
+        "apprise_url": "Apprise URL:"
       },
       "game_name": "ゲーム名",
       "priority": "優先度",

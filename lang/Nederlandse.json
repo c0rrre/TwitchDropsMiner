@@ -138,7 +138,8 @@
                 "autostart": "Autostart: ",
                 "tray": "Automatisch starten in het taakbalk: ",
                 "priority_only": "Alleen prioriteit: ",
-                "proxy": "Proxy (Vereist opnieuw opstarten):"
+                "proxy": "Proxy (Vereist opnieuw opstarten):",
+                "apprise_url": "Apprise URL:"
             },
             "game_name": "Spel",
             "priority": "Prioriteit",

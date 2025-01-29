@@ -139,7 +139,8 @@
                 "tray": "开机自启并最小化: ",
                 "tray_notifications": "启用托盘通知: ",
                 "priority_mode": "掉宝模式: ",
-                "proxy": "代理:"
+                "proxy": "代理:",
+                "apprise_url": "Apprise URL:"
             },
             "priority_modes": {
                 "priority_only": "只观看添加的游戏掉宝",

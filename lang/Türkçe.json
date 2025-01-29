@@ -138,7 +138,8 @@
                 "autostart": "Otomatik başlatma: ",
                 "tray": "Sistem tepsisine otomatik başlatma: ",
                 "priority_only": "Yalnızca öncelik: ",
-                "proxy": "Proxy (Yeniden başlatma gerektirir):"
+                "proxy": "Proxy (Yeniden başlatma gerektirir):",
+                "apprise_url": "Apprise URL:"
             },
             "game_name": "Oyun",
             "priority": "Öncelik",

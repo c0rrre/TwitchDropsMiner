@@ -139,7 +139,8 @@
                 "tray": "Automatisk start i systembakken: ",
                 "tray_notifications": "Bakkemeddelelser: ",
                 "priority_only": "Kun prioritet: ",
-                "proxy": "Proxy (kræver genstart):"
+                "proxy": "Proxy (kræver genstart):",
+                "apprise_url": "Apprise URL:"
             },
             "game_name": "Spilnavn",
             "priority": "Prioritet",

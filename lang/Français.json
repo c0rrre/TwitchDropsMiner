@@ -139,7 +139,8 @@
                 "tray": "Démarrage automatique dans la barre des tâches :",
                 "tray_notifications": "Notifications dans la barre des tâches :",
                 "priority_only": "Priorité uniquement :",
-                "proxy": "Proxy (nécessite un redémarrage) :"
+                "proxy": "Proxy (nécessite un redémarrage) :",
+                "apprise_url": "Apprise URL:"
             },
             "game_name": "Nom du jeu",
             "priority": "Priorité",

@@ -139,7 +139,8 @@
                 "tray": "Avvio automatico nella barra delle applicazioni: ",
                 "tray_notifications": "Notifiche: ",
                 "priority_only": "Solo priorità: ",
-                "proxy": "Proxy (richiede il riavvio):"
+                "proxy": "Proxy (richiede il riavvio):",
+                "apprise_url": "Apprise URL:"
             },
             "game_name": "Nome del gioco",
             "priority": "Priorità",

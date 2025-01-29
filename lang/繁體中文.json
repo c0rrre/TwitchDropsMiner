@@ -139,7 +139,8 @@
                 "tray": "開機時以最小化自動啟動：",
                 "tray_notifications": "啟用系統列通知：",
                 "priority_mode": "掉寶模式：",
-                "proxy": "代理伺服器（需要重新啟動）："
+                "proxy": "代理伺服器（需要重新啟動）：",
+                "apprise_url": "Apprise URL:"
             },
             "priority_modes": {
                 "priority_only": "僅參與優先掉寶遊戲",

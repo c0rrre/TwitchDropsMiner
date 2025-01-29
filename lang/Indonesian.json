@@ -139,7 +139,8 @@
                 "tray": "Mulai otomatis di bilah tugas :",
                 "tray_notifications": "Pemberitahuan bilah tugas :",
                 "priority_only": "Prioritas saja :",
-                "proxy": "Proksi (harus dimulai ulang) :"
+                "proxy": "Proksi (harus dimulai ulang) :",
+                "apprise_url": "Apprise URL:"
             },
             "game_name": "Nama game",
             "priority": "Prioritas",

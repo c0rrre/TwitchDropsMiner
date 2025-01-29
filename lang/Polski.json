@@ -139,7 +139,8 @@
                 "tray": "Autostart z zasobnika: ",
                 "tray_notifications": "Powiadomienia z zasobnika: ",
                 "priority_mode": "Tryb priorytetu: ",
-                "proxy": "Proxy (wymaga restartu):"
+                "proxy": "Proxy (wymaga restartu):",
+                "apprise_url": "Apprise URL:"
             },
             "priority_modes": {
                 "priority_only": "Tylko lista priorytetów",

@@ -139,7 +139,8 @@
                 "tray": "Ejecutar en la bandeja del sistema: ",
                 "tray_notifications": "Mostrar notificaciones: ",
                 "priority_mode": "Modo de prioridad: ",
-                "proxy": "Proxy (requiere reinicio):"
+                "proxy": "Proxy (requiere reinicio):",
+                "apprise_url": "Apprise URL:"
             },
             "priority_modes": {
                 "priority_only": "Solo juegos preferidos",

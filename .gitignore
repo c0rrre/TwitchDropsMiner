@@ -15,6 +15,7 @@ __pycache__
 log.txt
 /dump.dat
 /lock.file
+/.idea
 settings.json
 /lang/English.json
 # AppImage

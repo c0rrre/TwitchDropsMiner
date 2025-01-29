@@ -131,7 +131,8 @@
                 "autostart": "Automatické spuštění: ",
                 "tray": "Automaticky spusti minimalizovaně: ",
                 "priority_only": "Pouze prioritní: ",
-                "proxy": "Proxy:"
+                "proxy": "Proxy:",
+                "apprise_url": "Apprise URL:"
             },
             "game_name": "Název Hry",
             "priority": "Priorita",
