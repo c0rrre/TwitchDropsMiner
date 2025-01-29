@@ -6,3 +6,5 @@ PyGObject; sys_platform == "linux"  # required for better system tray support on
 # environment-dependent dependencies
 pywin32; sys_platform == "win32"
 truststore
+
+apprise == 1.9.2
