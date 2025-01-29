@@ -1666,7 +1666,7 @@ class SettingsPanel:
         # apprise frame
         apprise_frame = ttk.Frame(center_frame2)
         apprise_frame.grid(column=0, row=2)
-        ttk.Label(apprise_frame, text=_("Apprise URL:")).grid(column=0, row=0)
+        ttk.Label(apprise_frame, text="Apprise URL:").grid(column=0, row=0)
         self._apprise = PlaceholderEntry(
             apprise_frame,
             width=37,
