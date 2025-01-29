@@ -1579,7 +1579,7 @@ class SettingsPanel:
             "dark_theme": IntVar(master, self._settings.dark_theme),
             "autostart": IntVar(master, self._settings.autostart),
             "tray_notifications": IntVar(master, self._settings.tray_notifications),
-            "apprise_url": StringVar(master, self._settings.apprise_url),
+            "apprise_url": StringVar(master, str(self._settings.apprise_url)),
         }
         self._game_names: set[str] = set()
         master.rowconfigure(0, weight=1)
@@ -1666,7 +1666,7 @@ class SettingsPanel:
         # apprise frame
         apprise_frame = ttk.Frame(center_frame2)
         apprise_frame.grid(column=0, row=2)
-        ttk.Label(proxy_frame, text=_("gui", "settings", "general", "apprise_url")).grid(column=0, row=0)
+        ttk.Label(apprise_frame, text=_("gui", "settings", "general", "apprise_url")).grid(column=0, row=0)
         self._apprise = PlaceholderEntry(
             apprise_frame,
             width=37,
@@ -2379,6 +2379,8 @@ def set_theme(root, manager, name):
         style.map("TScrollbar",
                   background=[("active", bg_grey), ("!active", bg_grey)])
         # Proxy field
+        style.configure("TEntry", foreground="white", selectbackground=active_grey, fieldbackground=bg_grey)
+        # Apprise field
         style.configure("TEntry", foreground="white", selectbackground=active_grey, fieldbackground=bg_grey)
         # Include/Exclude box
         style.configure("TCombobox", foreground="white", selectbackground=active_grey, fieldbackground=bg_grey, arrowcolor="white")
