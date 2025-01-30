@@ -137,7 +137,7 @@ class BaseDrop:
 
     def _on_claim(self) -> None:
         invalidate_cache(self, "preconditions_met")
-        self.send_notification(f"Drop claimed: {self.rewards_text()}")
+        self.send_notification(f"{self.campaign.game.name}: {self.rewards_text()}")
 
     def update_claim(self, claim_id: str):
         self.claim_id = claim_id
