@@ -1,0 +1,89 @@
+name: Build and Release for musl
+
+on:
+  push:
+    branches: [ master ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [linux/amd64, linux/arm64, linux/arm/v7, linux/arm/v6, linux/386]
+        include:
+          - platform: linux/amd64
+            arch: amd64
+          - platform: linux/arm64
+            arch: arm64
+          - platform: linux/arm/v7
+            arch: armv7
+          - platform: linux/arm/v6
+            arch: armv6
+          - platform: linux/386
+            arch: 386
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          load: true  # Load the image locally instead of pushing
+          tags: local-build:${{ matrix.arch }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Extract built executable
+        run: |
+          mkdir -p "./dist/Twitch Drops Miner"
+          container_id=$(docker create local-build:${{ matrix.arch }})
+          docker cp "$container_id:/app/dist/." "./dist/Twitch Drops Miner/"
+          docker cp "$container_id:/app/manual.txt" "./dist/Twitch Drops Miner/"
+          docker rm $container_id
+          cd dist
+          tar czf "../TwitchDropsMiner-linux-musl-${{ matrix.arch }}.tar.gz" "Twitch Drops Miner"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TwitchDropsMiner-linux-${{ matrix.arch }}
+          path: TwitchDropsMiner-linux-musl-${{ matrix.arch }}.tar.gz
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare release files
+        run: |
+          for dir in artifacts/TwitchDropsMiner-linux-*; do
+            cp "$dir"/* ./
+          done
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: TwitchDropsMiner-linux-musl-*.tar.gz
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
