@@ -244,15 +244,26 @@ jobs:
         run: |
           echo "date_now=$(date --rfc-3339=seconds)" >> "${GITHUB_OUTPUT}"
 
-      - name: Download build artifacts from previous jobs
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
-      - name: Delete the existing pre-release
+      - name: Check if release exists
+        id: check_release
+        run: |
+          if gh release view dev-build --repo $GITHUB_REPOSITORY; then
+            echo "release_exists=true" >> $GITHUB_ENV
+          else
+            echo "release_exists=false" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete release if exists
+        if: env.release_exists == 'true'
         run: gh release delete dev-build --cleanup-tag --yes --repo $GITHUB_REPOSITORY
         env:
-          GITHUB_TOKEN: ${{github.token}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a new dev build release
         uses: ncipollo/release-action@v1
