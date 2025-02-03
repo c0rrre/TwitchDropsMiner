@@ -11,40 +11,9 @@ env:
   PYTHON_VERSION: '3.10'
 
 jobs:
-  validate:
-    name: Validate
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{env.PYTHON_VERSION}}
-
-      - name: Validate language files
-        run: |
-          failed=()
-          for file in "lang/"*.json; do
-            if err="$(python -m json.tool "${file}" 2>&1 >/dev/null)"; then
-              echo "[OK] ${file}"
-            else
-              echo "[ERROR] ${file} ${err}"
-              failed+=("${file}")
-            fi
-          done
-          if [ "${#failed[@]}" -gt 0 ]; then
-            echo -e "\nFailed to validate the following language file(s): ${failed[@]}"
-            exit 1
-          fi
-
   windows:
     name: Windows
     runs-on: windows-latest
-    needs:
-      - validate
 
     steps:
       - name: Checkout code
@@ -105,8 +74,6 @@ jobs:
   linux-pyinstaller:
     name: Linux (PyInstaller)
     runs-on: ubuntu-20.04
-    needs:
-      - validate
 
     steps:
       - name: Checkout code
@@ -119,7 +86,7 @@ jobs:
 
       - name: Append git revision to project version
         run: |
-          sed -ri "s/^__version__\s*=\s*\"[^\"]+/\0.${{steps.vars.outputs.sha_short}}/" version.py
+          sed -ri "s/^__version__\s*=\s*\"[^\"]+/\0.${{ steps.vars.outputs.sha_short }}/" version.py
 
       # NOTE: We're only use a custom version of Python here because truststore requires at least Python 3.10, but Ubuntu 20.04 has Python 3.8.
       - name: Set up Python
@@ -130,7 +97,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
-          sudo apt install libgirepository1.0-dev gir1.2-ayatanaappindicator3-0.1 libayatana-appindicator3-1 python3-tk
+          sudo apt install gir1.2-appindicator3-0.1 libgirepository1.0-dev python3-tk
 
       - name: Install project dependencies
         run: |
@@ -178,8 +145,6 @@ jobs:
   linux-appimage:
     name: Linux (AppImage)
     runs-on: ubuntu-22.04
-    needs:
-      - validate
 
     steps:
       - name: Checkout code
@@ -198,7 +163,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
-          sudo apt install libgirepository1.0-dev gir1.2-ayatanaappindicator3-0.1 libayatana-appindicator3-1 python3-testresources
+          sudo apt install libgirepository1.0-dev python3-testresources
 
       - name: Download AppImage Builder
         run: |
@@ -229,7 +194,7 @@ jobs:
 
   update_releases_page:
     name: Upload builds to Releases
-    if: github.event_name != 'pull_request'
+    #NOTEif: github.event.pull_request.merged == true
     needs:
       - windows
       - linux-pyinstaller
@@ -239,46 +204,51 @@ jobs:
       contents: write
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Get next version
+        uses: reecetech/version-increment@2024.4.3
+        id: version
+        with:
+          scheme: semver
+          increment: minor
+
       - name: Set up variables
         id: vars
         run: |
           echo "date_now=$(date --rfc-3339=seconds)" >> "${GITHUB_OUTPUT}"
+          echo "sha_short=$(git rev-parse --short HEAD)" >> "${GITHUB_OUTPUT}"
 
-      - name: Download artifacts
+      - name: Download build artifacts from previous jobs
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+      
+      - name: Read patch notes from file
+        id: patch_notes
+        uses: juliangruber/read-file-action@v1.1.7
+        with:
+          path: ./patch_notes.txt
 
-      - name: Check if release exists
-        id: check_release
-        run: |
-          if gh release view dev-build --repo $GITHUB_REPOSITORY; then
-            echo "release_exists=true" >> $GITHUB_ENV
-          else
-            echo "release_exists=false" >> $GITHUB_ENV
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Delete release if exists
-        if: env.release_exists == 'true'
-        run: gh release delete dev-build --cleanup-tag --yes --repo $GITHUB_REPOSITORY
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create a new dev build release
+      - name: Upload builds to Releases
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           artifactErrorsFailBuild: true
           artifacts: artifacts/*/*
           body: |
-            **This is an automatically generated in-development pre-release version of the application, that includes the latest master branch changes.**
-            **⚠️ This build is not stable and may end up terminating with a fatal error. ⚠️**
-            **Use at your own risk.**
+            **This is an automatically generated updated version of the application, that includes the latest master branch changes.**
+            **This build should be stable, but if you encounter anything, please report any issues you find.**
 
-            - Last build date: `${{steps.vars.outputs.date_now}}`
-            - Reference commit: ${{github.sha}}
-          name: Development build
-          prerelease: true
+            - Last build date: `${{ steps.vars.outputs.date_now }}`
+            - Reference commit: ${{ github.sha }}
+            
+            ***
+            ## Patch notes:
+            ${{ steps.patch_notes.outputs.content }}
+
+          name: ${{ steps.version.outputs.v-version }} - Updated tested build (${{ steps.vars.outputs.sha_short }})
+          prerelease: false
           removeArtifacts: true
-          tag: dev-build
+          tag: ${{ steps.version.outputs.v-version }}
