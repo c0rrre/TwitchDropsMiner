@@ -1318,7 +1318,7 @@ class InventoryOverview:
         priority_only = self._settings.priority_mode is PriorityMode.PRIORITY_ONLY
         if (
             campaign.required_minutes > 0  # don't show sub-only campaigns
-            and (not_linked or campaign.linked)
+            and (not_linked or campaign.eligible)
             and (campaign.active or upcoming and campaign.upcoming or expired and campaign.expired)
             and (
                 excluded or (
@@ -1445,9 +1445,7 @@ class InventoryOverview:
         ).grid(column=1, row=4, sticky="nw", padx=4)
         # Image
         campaign_image = await self._cache.get(campaign.image_url, size=(108, 144))
-        ttk.Label(
-            campaign_frame, image=campaign_image  # type: ignore[arg-type]
-        ).grid(column=0, row=1, rowspan=4)
+        ttk.Label(campaign_frame, image=campaign_image).grid(column=0, row=1, rowspan=4)
         # Drops separator
         ttk.Separator(
             campaign_frame, orient="vertical", takefocus=False
@@ -1468,7 +1466,7 @@ class InventoryOverview:
                 ttk.Label(
                     benefits_frame,
                     text=benefit.name,
-                    image=image,  # type: ignore[arg-type]
+                    image=image,
                     compound="bottom",
                 ).grid(column=i, row=0, padx=5)
             self._drops[drop.id] = label = ttk.Label(drop_frame, justify=tk.CENTER)
