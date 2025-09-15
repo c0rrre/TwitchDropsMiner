@@ -62,7 +62,7 @@ Every several seconds, the application pretends to watch a particular stream by 
 
 - The Linux app is built and distributed using two distinct portable-executable formats: [AppImage](https://appimage.org/) and [PyInstaller](https://pyinstaller.org/).
 - There are no major differences between the two formats, but if you're looking for a recommendation, use the AppImage.
-- The Linux app should work out of the box on any modern distribution, as long as it has `glibc>=2.31` (PyInstaller package) or `glibc>=2.35` (AppImage package), plus a working display server.
+- The Linux app should work out of the box on any modern distribution, as long as it has `glibc>=2.35`, plus a working display server.
 - Every feature of the app is expected to work on Linux just as well as it does on Windows. If you find something that's broken, please [open a new issue](https://github.com/DevilXD/TwitchDropsMiner/issues/new).
 - The size of the Linux app is significantly larger than the Windows app due to the inclusion of the `gtk3` library (and its dependencies), which is required for proper system tray/notifications support.
 - As an alternative to the native Linux app, you can run the Windows app via [Wine](https://www.winehq.org/) instead. It works really well!
@@ -136,6 +136,7 @@ placed past the period character at the end.
 -->
 
 @guihkx - For the CI script, CI maintenance, and everything related to Linux builds.  
+@kWAYTV - For the implementation of the dark mode theme.  
 
 @Bamboozul - For the entirety of the Arabic (العربية) translation.  
 @Suz1e - For the entirety of the Chinese (简体中文) translation and revisions.  
@@ -146,13 +147,16 @@ placed past the period character at the end.
 @nwvh - For the entirety of the Czech (Čeština) translation.  
 @Kjerne - For the entirety of the Danish (Dansk) translation.  
 @roobini-gamer - For the entirety of the French (Français) translation.  
+@Calvineries - For the French (Français) translation revisions.  
 @ThisIsCyreX - For the entirety of the German (Deutsch) translation.  
 @Eriza-Z - For the entirety of the Indonesian translation.  
 @casungo - For the entirety of the Italian (Italiano) translation.  
-@ShimadaNanaki - For the entirety of the Japanese (日本語) translation.
+@ShimadaNanaki - For the entirety of the Japanese (日本語) translation.  
 @Patriot99 - For the Polish (Polski) translation and revisions (co-authored with @DevilXD).  
 @zarigata - For the entirety of the Portuguese (Português) translation.  
 @Sergo1217 - For the entirety of the Russian (Русский) translation.  
+@kilroy98 - For the Russian (Русский) translation corrections and revisions.  
 @Shofuu - For the entirety of the Spanish (Español) translation and revisions.  
 @alikdb - For the entirety of the Turkish (Türkçe) translation.  
 @Nollasko - For the entirety of the Ukrainian (Українська) translation and revisions.  
+@kilroy98 - For the Ukrainian (Українська) translation corrections and revisions.  

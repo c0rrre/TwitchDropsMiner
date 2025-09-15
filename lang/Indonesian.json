@@ -6,8 +6,6 @@
         "goes_online": "{channel} Tiket masuk ONLINE, ganti...",
         "goes_offline": "{channel} menjadi OFF-LINE, ubah...",
         "claimed_drop": "Drop dipulihkan : {drop}",
-        "claimed_points": "Poin bonus yang dipulihkan: {points}",
-        "earned_points": "Poin yang diperoleh dari menonton : {points}, jumlah : {balance}",
         "no_channel": "Tidak ada saluran yang tersedia untuk ditonton. Menunggu saluran secara ONLINE...",
         "no_campaign": "Tidak ada kampanye aktif yang bisa ditambang. Menunggu kampanye aktif..."
     },
@@ -92,7 +90,6 @@
         "channels": {
             "name": "Saluran",
             "switch": "Beralih",
-            "load_points": "Poin Pemuatan",
             "online": "ONLINE  ✔",
             "pending": "DITUNDA ⏳",
             "offline": "OFFLINE ❌",
@@ -100,8 +97,7 @@
                 "channel": "Saluran",
                 "status": "Status",
                 "game": "Game",
-                "viewers": "Penonton",
-                "points": "Poin"
+                "viewers": "Penonton"
             }
         },
         "inventory": {
@@ -138,6 +134,7 @@
                 "autostart": "Mulai secara otomatis :",
                 "tray": "Mulai otomatis di bilah tugas :",
                 "tray_notifications": "Pemberitahuan bilah tugas :",
+                "dark_mode": "Mode gelap: ",
                 "priority_only": "Prioritas saja :",
                 "proxy": "Proksi (harus dimulai ulang) :",
                 "apprise_url": "Apprise URL:"
