@@ -1549,7 +1549,7 @@ class _SettingsVars(TypedDict):
     proxy: StringVar
     dark_theme: IntVar
     autostart: IntVar
-    dark_mode: IntVar
+    dark_theme: IntVar
     language: StringVar
     priority_mode: StringVar
     tray_notifications: IntVar
@@ -1586,7 +1586,6 @@ class SettingsPanel:
             "language": StringVar(master, _.current),
             "proxy": StringVar(master, str(self._settings.proxy)),
             "tray": IntVar(master, self._settings.autostart_tray),
-            "dark_mode": IntVar(master, int(self._settings.dark_mode)),
             "priority_mode": StringVar(master, self.PRIORITY_MODES[priority_mode]),
             "dark_theme": IntVar(master, self._settings.dark_theme),
             "autostart": IntVar(master, self._settings.autostart),
@@ -1651,12 +1650,12 @@ class SettingsPanel:
             command=self.update_notifications,
         ).grid(column=1, row=irow, sticky="w")
         ttk.Label(
-            checkboxes_frame, text=_("gui", "settings", "general", "dark_mode")
+            checkboxes_frame, text=_("gui", "settings", "general", "dark_theme")
         ).grid(column=0, row=(irow := irow + 1), sticky="e")
         ttk.Checkbutton(
             checkboxes_frame,
-            variable=self._vars["dark_mode"],
-            command=self.update_dark_mode,
+            variable=self._vars["dark_theme"],
+            command=self.update_dark_theme,
         ).grid(column=1, row=irow, sticky="w")
         ttk.Label(
             checkboxes_frame, text=_("gui", "settings", "general", "priority_mode")
@@ -1786,10 +1785,10 @@ class SettingsPanel:
         self._priority_list.selection_clear(0, "end")
         self._exclude_list.selection_clear(0, "end")
 
-    def update_dark_mode(self) -> None:
-        self._settings.dark_mode = bool(self._vars["dark_mode"].get())
+    def update_dark_theme(self) -> None:
+        self._settings.dark_theme = bool(self._vars["dark_theme"].get())
         self._settings.alter()
-        self._manager.apply_theme(self._settings.dark_mode)
+        self._manager.apply_theme(self._settings.dark_theme)
 
     def update_notifications(self) -> None:
         self._settings.tray_notifications = bool(self._vars["tray_notifications"].get())
@@ -2213,7 +2212,7 @@ class GUIManager:
             self._orig_theme_name = self._style.theme_use()
         except Exception:
             self._orig_theme_name = ''
-        self.apply_theme(self._twitch.settings.dark_mode)
+        self.apply_theme(self._twitch.settings.dark_theme)
         # stay hidden in tray if needed, otherwise show the window when everything's ready
         if self._twitch.settings.tray:
             # NOTE: this starts the tray icon thread
