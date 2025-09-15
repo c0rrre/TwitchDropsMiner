@@ -235,7 +235,7 @@ class TimedDrop(BaseDrop):
     def __init__(
         self, campaign: DropsCampaign, data: JsonType, claimed_benefits: dict[str, datetime], settings: Settings
     ):
-        super().__init__(campaign, data, claimed_benefits)
+        super().__init__(campaign, data, claimed_benefits, settings)
         self.real_current_minutes: int = (
             "self" in data and data["self"]["currentMinutesWatched"] or 0
         )
