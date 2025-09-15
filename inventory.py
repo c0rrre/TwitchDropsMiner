@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, timezone
 
 import apprise
 
+from translate import _
 from channel import Channel
 from settings import Settings
 from exceptions import GQLException
