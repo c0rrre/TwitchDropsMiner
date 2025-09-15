@@ -14,6 +14,7 @@ import apprise
 from channel import Channel
 from settings import Settings
 from exceptions import GQLException
+from utils import timestamp, Game
 from constants import GQL_OPERATIONS, MAX_EXTRA_MINUTES, URLType, State
 
 if TYPE_CHECKING:
