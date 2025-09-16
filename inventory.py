@@ -196,6 +196,7 @@ class BaseDrop:
                 _("status", "claimed_drop").format(drop=claim_text.replace('\n', ' '))
             )
             self._twitch.gui.tray.notify(claim_text, _("gui", "tray", "notification_title"))
+            self.send_notification(f"{self.campaign.game.name}: {self.rewards_text()}")
         else:
             logger.error(f"Drop claim has potentially failed! Drop ID: {self.id}")
         return result
