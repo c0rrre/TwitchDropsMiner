@@ -288,9 +288,8 @@ class Channel:
         SETTINGS_PATTERN: str = (
             r'src="(https://[\w.]+/config/settings\.[0-9a-f]{32}\.js)"'
         )
-        SPADE_PATTERN: str = (
-            r'"beacon_?url": ?"(https://video-edge-[.\w\-/]+\.ts(?:\?allow_stream=true)?)"'
-        )
+        SPADE_PATTERN: str = r'"(?:beacon|spade)_?url": ?"(https://[.\w\-/]+)"'
+        
         async with self._twitch.request("GET", self.url) as response1:
             streamer_html: str = await response1.text(encoding="utf8")
         match = re.search(SPADE_PATTERN, streamer_html, re.I)
