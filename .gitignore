@@ -9,6 +9,7 @@ __pycache__
 /*.tmp
 /Twitch Drops Miner
 # Dev files
+*.new
 /env
 /cache
 /*.jar
@@ -24,3 +25,5 @@ settings.json
 /appimage-build
 /*.AppImage
 /*.AppImage.zsync
+.DS_Store
+*.app

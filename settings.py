@@ -14,13 +14,15 @@ if TYPE_CHECKING:
 class SettingsFile(TypedDict):
     proxy: URL
     language: str
-    dark_theme: bool
+    dark_mode: bool
     autostart: bool
     exclude: set[str]
     priority: list[str]
     autostart_tray: bool
     connection_quality: int
     tray_notifications: bool
+    enable_badges_emotes: bool
+    available_drops_check: bool
     priority_mode: PriorityMode
     apprise_url: str
 
@@ -29,12 +31,14 @@ default_settings: SettingsFile = {
     "proxy": URL(),
     "priority": [],
     "exclude": set(),
-    "dark_theme": True,
+    "dark_mode": False,
     "autostart": False,
     "autostart_tray": False,
     "connection_quality": 1,
     "language": DEFAULT_LANG,
     "tray_notifications": True,
+    "enable_badges_emotes": False,
+    "available_drops_check": False,
     "priority_mode": PriorityMode.PRIORITY_ONLY,
     "apprise_url": ""
 }
@@ -52,13 +56,15 @@ class Settings:
     # from settings file
     proxy: URL
     language: str
-    dark_theme: bool
+    dark_mode: bool
     autostart: bool
     exclude: set[str]
     priority: list[str]
     autostart_tray: bool
     connection_quality: int
     tray_notifications: bool
+    enable_badges_emotes: bool
+    available_drops_check: bool
     priority_mode: PriorityMode
     apprise_url: str
 

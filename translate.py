@@ -164,13 +164,14 @@ class GUISettingsGeneral(TypedDict):
     dark_mode: str
     priority_mode: str
     proxy: str
-    dark_theme: str
 
 
-class GUIPriorityModes(TypedDict):
-    priority_only: str
-    ending_soonest: str
-    low_availability: str
+class GUISettingsAdvanced(TypedDict):
+    name: str
+    warning: str
+    warning_text: str
+    enable_badges_emotes: str
+    available_drops_check: str
 
 
 class GUIPriorityModes(TypedDict):
@@ -181,6 +182,7 @@ class GUIPriorityModes(TypedDict):
 
 class GUISettings(TypedDict):
     general: GUISettingsGeneral
+    advanced: GUISettingsAdvanced
     priority_modes: GUIPriorityModes
     game_name: str
     priority: str
@@ -195,12 +197,18 @@ class GUIHelpLinks(TypedDict):
     campaigns: str
 
 
+class GUIHelpInvalidate(TypedDict):
+    button: str
+    text: str
+
+
 class GUIHelp(TypedDict):
     links: GUIHelpLinks
     how_it_works: str
     how_it_works_text: str
     getting_started: str
     getting_started_text: str
+    invalidate: GUIHelpInvalidate
 
 
 class GUIMessages(TypedDict):
@@ -262,7 +270,7 @@ default_translation: Translation = {
     "error": {
         "captcha": "Your login attempt was denied by CAPTCHA.\nPlease try again in 12+ hours.",
         "site_down": "Twitch is down, retrying in {seconds} seconds...",
-        "no_connection": "Cannot connect to Twitch, retrying in {seconds} seconds...",
+        "no_connection": "Cannot connect to Twitch, retrying in {seconds} seconds... ({url})",
     },
     "gui": {
         "output": "Output",
@@ -366,13 +374,23 @@ default_translation: Translation = {
         "settings": {
             "general": {
                 "name": "General",
-                "dark_theme": "Dark theme: ",
                 "autostart": "Autostart: ",
                 "tray": "Autostart into tray: ",
                 "tray_notifications": "Tray notifications: ",
                 "dark_mode": "Dark mode: ",
                 "priority_mode": "Priority mode: ",
                 "proxy": "Proxy (requires restart):",
+            },
+            "advanced": {
+                "name": "Advanced",
+                "warning": "Warning!",
+                "warning_text": (
+                    "These options will cause the miner to misbehave.\n"
+                    "If you're experiencing any issues, "
+                    "make sure all of these options are disabled."
+                ),
+                "enable_badges_emotes": "Enable partial support for badges and emotes: ",
+                "available_drops_check": "Enable extra available drops check: ",
             },
             "priority_modes": {
                 "priority_only": "Priority list only",
@@ -422,6 +440,10 @@ default_translation: Translation = {
                 "the \"Priority mode\", requires you to press on \"Reload\" "
                 "for the changes to take an effect."
             ),
+            "invalidate": {
+                "button": "Invalidate",
+                "text": "Invalidate the authentication token (log out):",
+            },
         },
     },
 }
